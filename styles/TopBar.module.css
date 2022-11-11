@@ -1,0 +1,31 @@
+.container {
+  height: 100%;
+  width: calc(100% - 50px * 2);
+  display: grid;
+  grid-template-columns: 100px auto 100px;
+  grid-template-areas: "menu title carrito";
+  align-items: center;
+  padding-right: 50px;
+  padding-left: 50px;
+  column-gap: 10px;
+}
+
+.menuContainer {
+  grid-area: menu;
+}
+
+.carritoContainer {
+  grid-area: carrito;
+}
+
+.titleContainer {
+  grid-area: title;
+  display: grid;
+  place-items: center;
+}
+
+.titleContainer > span {
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: 10px;
+}
