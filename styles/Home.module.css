@@ -2,20 +2,48 @@
   background-color: beige;
   padding: 50px;
   display: grid;
-  height: 100%;
+  height: calc(100vh - 100px);
   width: 100%;
-  grid-template-rows: repeat(4, calc(100% / 4));
+  grid-template-rows: repeat(5, calc(100% / 5));
   grid-template-columns: repeat(4, calc(100% / 4));
 }
 
 .imgContainer {
-  grid-row: 1 / 4;
+  grid-row: 1 / 5;
   grid-column: 2 / -1;
-  background-color: red;
+  width: 100%;
+  height: 100%;
 }
 
-.imgContainer > img {
-  object-fit: cover;
-  height: 90%;
-  width: 90%;
+.img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.caja {
+  width: 100%;
+  height: 100%;
+  grid-row: 2 / 4;
+  grid-column: 1 / 3;
+  background-color: #294936;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+}
+
+.leyenda {
+  color: #e9f5db;
+  font-size: 60px;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 10px;
+}
+
+.buttonContainer {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  align-items: center;
+  grid-column: 1 / 3;
+  grid-row: 5;
 }

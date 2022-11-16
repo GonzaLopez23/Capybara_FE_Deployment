@@ -1,0 +1,10 @@
+.container {
+  cursor: pointer;
+  font-size: 33px;
+  letter-spacing: 5px;
+  display: grid;
+  place-items: center;
+  border: solid 1px black;
+  text-transform: capitalize;
+  font-weight: 200;
+}
