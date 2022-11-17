@@ -10,10 +10,12 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import styles from "../styles/TopBar.module.css";
 
 const TopBar: React.FC = () => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   const toggleDrawer =
@@ -28,6 +30,10 @@ const TopBar: React.FC = () => {
       setOpen(open);
     };
 
+  const goToCart = () => router.push(`/cart`);
+
+  const goToHome = () => router.push(`/`);
+
   return (
     <>
       <div className={styles.container}>
@@ -35,9 +41,6 @@ const TopBar: React.FC = () => {
           className={styles.menuContainer}
           alt=""
           src={"/menu.jpeg"}
-          style={{
-            cursor: "pointer",
-          }}
           width={70}
           height={70}
           onClick={toggleDrawer(true)}
@@ -48,9 +51,10 @@ const TopBar: React.FC = () => {
           src={"/carrito.jpeg"}
           width={70}
           height={70}
+          onClick={goToCart}
         />
 
-        <div className={styles.titleContainer}>
+        <div onClick={goToHome} className={styles.titleContainer}>
           <span>CAPYBARA</span>
         </div>
       </div>

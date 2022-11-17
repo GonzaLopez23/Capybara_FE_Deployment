@@ -19,10 +19,16 @@
   grid-area: carrito;
 }
 
+.carritoContainer,
+.menuContainer {
+  cursor: pointer;
+}
+
 .titleContainer {
   grid-area: title;
   display: grid;
   place-items: center;
+  cursor: pointer;
 }
 
 .titleContainer > span {

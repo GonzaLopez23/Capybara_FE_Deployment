@@ -1,0 +1,67 @@
+.container {
+  background-color: beige;
+  display: grid;
+  height: calc(100vh - 100px);
+  width: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: 60px 300px 1fr;
+  padding: 50px;
+}
+
+.title {
+  grid-row: 1;
+  font-size: 33px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  grid-column: 1;
+}
+
+.line {
+  grid-column: 1;
+  grid-row: 1;
+  background-color: black;
+  width: 60%;
+  height: 1px;
+  margin-top: auto;
+  margin-bottom: 10px;
+}
+
+.button {
+  width: 400px;
+}
+
+.buttonCatalogoContainer {
+  grid-row: 3;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.listContainer {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 20px;
+  height: 100%;
+  align-items: center;
+}
+
+.listHeaderContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column: 2 / 4;
+}
+
+.titlesList {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+.listContent {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  grid-template-columns: inherit;
+  height: 100%;
+}

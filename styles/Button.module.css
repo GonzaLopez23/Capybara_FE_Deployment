@@ -1,6 +1,6 @@
 .container {
   cursor: pointer;
-  font-size: 33px;
+  font-size: 25px;
   letter-spacing: 5px;
   display: grid;
   place-items: center;
