@@ -1,0 +1,22 @@
+.container {
+    background-color: white;
+    padding: 50px;
+    display: grid;
+    height: calc(100vh - 100px);
+    width: 100%;
+    grid-template-rows: repeat(5, calc(100% / 5));
+    grid-template-columns: repeat(4, calc(100% / 4));
+}
+
+.titulo {
+  color: black;
+  font-size: 30px;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 10px;
+}
+
+.form {
+  grid-column: 2 / 4;
+  grid-row: 2 / 3;
+  background-color: white;
+}

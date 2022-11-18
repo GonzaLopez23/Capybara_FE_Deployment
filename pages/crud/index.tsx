@@ -1,28 +1,48 @@
-import { useRouter } from 'next/router';
-import React, { ReactElement } from 'react'
+import { style } from "@mui/system";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import styles from "../../styles/Crud.module.css";
 
-const Index = ():ReactElement => {
-  
-    const router = useRouter();
+const Index = () => {
+  const [auth, setAuth] = useState(false);
 
-    const handleToekn = () => {
-        if (!sessionStorage.getItem('auth-token')) {
-        console.log('no auth token set');
-        router.push("/login");
-        } else {
-            const authToken = '123456abcdef';
-            if (sessionStorage.getItem('auth-token') == authToken) {
-                alert('good token. Log in.')
-            } else {
-                console.log('bad token.')
-                router.push("/login");
-            }
-        }
+  const router = useRouter();
+
+  useEffect(() => {
+    const isAuth = (): boolean => {
+      const authToken = "123456abcdef";
+
+      if (sessionStorage.getItem("auth-token") === authToken) {
+        console.log("good token. Log in.");
+        return true;
+      }
+      console.log("bad token.");
+      return false;
+    };
+
+    if (isAuth()) {
+      setAuth(true);
+      return;
     }
-  
-    return (
-    <div>index</div>
-  )
-}
+    router.push("/login");
+  }, []);
 
-export default Index
+  if (auth) {
+    return (
+      <div className={styles.container}>
+        <h3 className={styles.titulo}>Dashboard</h3>
+        <form  className={styles.form} >
+          <label>
+            Name:
+            <input type="text" name="name" />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    );
+  }
+
+  return <></>;
+};
+
+export default Index;
