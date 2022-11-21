@@ -1,5 +1,6 @@
 import { ArrowBack, Mail, MoveToInbox } from "@mui/icons-material";
 import {
+  Badge,
   Divider,
   Drawer,
   List,
@@ -12,11 +13,14 @@ import { Box } from "@mui/system";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useCart } from "../services/cart";
 import styles from "../styles/TopBar.module.css";
 
 const TopBar: React.FC = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  const { cart } = useCart();
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -45,14 +49,30 @@ const TopBar: React.FC = () => {
           height={70}
           onClick={toggleDrawer(true)}
         />
-        <Image
-          className={styles.carritoContainer}
-          alt=""
-          src={"/carrito.jpeg"}
-          width={70}
-          height={70}
-          onClick={goToCart}
-        />
+        <Badge
+          badgeContent={cart.items.length}
+          invisible={cart.items.length === 0}
+          color="primary"
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          sx={{
+            "& .MuiBadge-badge": {
+              top: 30,
+              left: 10,
+            },
+          }}
+        >
+          <Image
+            className={styles.carritoContainer}
+            alt=""
+            src={"/carrito.jpeg"}
+            width={70}
+            height={70}
+            onClick={goToCart}
+          />
+        </Badge>
 
         <div onClick={goToHome} className={styles.titleContainer}>
           <span>CAPYBARA</span>
