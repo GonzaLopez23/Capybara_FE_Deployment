@@ -1,5 +1,5 @@
 const environment = {
-  BASE_URL: "http://capybaradeployment-production.up.railway.app",
+  BASE_URL: "https://capybaradeployment-production.up.railway.app",
 };
 
 export default environment;
