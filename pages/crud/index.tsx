@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/Crud.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Product, { IProduct } from "../catalog/Product";
+import Product, { IProduct } from "../../components/Product";
 import useSWR, { mutate } from "swr";
 import fetcher from "../../services/fetcher";
 import { IProductResponse } from "../catalog/index";
