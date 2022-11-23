@@ -3,40 +3,41 @@ import { useRouter } from "next/router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../../styles/Login.module.css";
 
+const Index = (): ReactElement => {
+  const [userInput, setUserInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
 
-const Index = ():ReactElement => {
-
-  const [userInput, setUserInput] = useState('');
-  const [passwordInput, setPasswordInput] = useState('');
-
-  const handleUserChange = (e:any) => {
+  const handleUserChange = (e: any) => {
     setUserInput(e.target.value);
-  }
+  };
 
-  const handlePasswordChange = (e:any) => {
+  const handlePasswordChange = (e: any) => {
     setPasswordInput(e.target.value);
-  }
+  };
 
   const router = useRouter();
-  
-  const onSubmit = (e:any) => {
+
+  const onSubmit = (e: any) => {
     e.preventDefault();
     let hardcodedCred = {
-        user: 'admin',
-        password: 'capybara'
-    }
+      user: "admin",
+      password: "capybara",
+    };
 
-    if ((userInput == hardcodedCred.user) && (passwordInput == hardcodedCred.password)) {
-        const token = '123456abcdef';
-        sessionStorage.setItem('auth-token', token);
-        router.push('/crud');
+    if (
+      userInput == hardcodedCred.user &&
+      passwordInput == hardcodedCred.password
+    ) {
+      const token = "123456abcdef";
+      sessionStorage.setItem("auth-token", token);
+      router.push("/crud");
     } else {
-        alert('wrong User or password combination');
+      alert("wrong User or password combination");
     }
-  }
+  };
 
-  return(
-  <div className={styles.AuthFormContainer}>
+  return (
+    <div className={styles.AuthFormContainer}>
       <form className={styles.AuthForm} method="POST" onSubmit={onSubmit}>
         <div className={styles.AuthFormContent}>
           <h3 className={styles.AuthFormTitle}>Sign In</h3>
@@ -68,7 +69,7 @@ const Index = ():ReactElement => {
         </div>
       </form>
     </div>
-  )
+  );
 };
 
 export default Index;
