@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 import fetcher from "../../services/fetcher";
 import styles from "../../styles/Catalogo.module.css";
-import Product, { IProduct } from "./Product";
+import Product, { IProduct } from "../../components/Product";
 
 // const opciones = ["Mátes", "Mochilas", "Termos"];
 

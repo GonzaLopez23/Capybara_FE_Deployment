@@ -1,5 +1,6 @@
-import { IProductResponse } from ".";
-import styles from "../../styles/Product.module.css";
+import { IProductResponse } from "../pages/catalog";
+import styles from "../styles/Product.module.css";
+
 
 export interface IProduct {
   product: IProductResponse;
