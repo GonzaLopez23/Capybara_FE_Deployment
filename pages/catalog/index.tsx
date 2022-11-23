@@ -1,47 +1,57 @@
+import { CircularProgress, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
+import fetcher from "../../services/fetcher";
 import styles from "../../styles/Catalogo.module.css";
 import Product, { IProduct } from "./Product";
 
-const opciones = ["Mátes", "Mochilas", "Termos"];
-const productos = [
-  {
-    id: 1,
-    nombre: "Mate",
-    precio: 100,
-  },
-  {
-    id: 2,
-    nombre: "Mate",
-    precio: 100,
-  },
-  {
-    id: 3,
-    nombre: "Mate",
-    precio: 100,
-  },
-  {
-    id: 4,
-    nombre: "Mate",
-    precio: 100,
-  },
-  {
-    id: 5,
-    nombre: "Mate",
-    precio: 100,
-  },
-  {
-    id: 88,
-    nombre: "Mate",
-    precio: 100,
-  },
-];
+// const opciones = ["Mátes", "Mochilas", "Termos"];
+
+export interface IProductResponse {
+  cantidad: number;
+  // categoria
+  descripcion: string;
+  id: number;
+  nombre: string;
+  precio: number;
+}
+
+export interface ICategory {
+  id: number;
+  nombre: string;
+  descripcion: string;
+}
+
 const Catalogo: React.FC = () => {
   const router = useRouter();
 
-  const [optionSelected, setOptionSelected] = useState<string | null>(null);
+  const [categorySelected, setCategorySelected] = useState<number | null>(null);
 
-  const handleNewOption = (o: string | null) => setOptionSelected(o);
+  const { data: dataProducts, error: errorProducts } = useSWR<
+    IProductResponse[]
+  >(
+    [
+      categorySelected !== null
+        ? "/api/v1/productos/search"
+        : "/api/v1/productos",
+      categorySelected !== null
+        ? {
+            params: {
+              search: "categoria.id:" + categorySelected,
+            },
+          }
+        : undefined,
+    ],
+    fetcher
+  );
+
+  const { data: dataCategories, error: errorCategories } = useSWR<ICategory[]>(
+    "/api/v1/categorias",
+    fetcher
+  );
+
+  const handleNewOption = (cId: number | null) => setCategorySelected(cId);
 
   const showProduct = (id: number) => router.push(`/product/${id}`);
 
@@ -54,29 +64,49 @@ const Catalogo: React.FC = () => {
         <span
           onClick={() => handleNewOption(null)}
           className={`${styles.listItem} ${
-            optionSelected === null ? styles.listItemSelected : undefined
+            categorySelected === null ? styles.listItemSelected : undefined
           }`}
         >
           Todos
         </span>
-        {opciones.map((o, i) => (
-          <span
-            key={i}
-            onClick={() => handleNewOption(o)}
-            className={`${styles.listItem} ${
-              optionSelected === o ? styles.listItemSelected : undefined
-            }`}
-          >
-            {o}
-          </span>
-        ))}
+
+        {dataCategories === undefined ? (
+          <div className={styles.spinnerContainer}>
+            <CircularProgress />
+          </div>
+        ) : (
+          dataCategories.map((c) => (
+            <Tooltip key={c.id} title={c.descripcion} placement="right">
+              <span
+                onClick={() => handleNewOption(c.id)}
+                className={`${styles.listItem} ${
+                  categorySelected === c.id
+                    ? styles.listItemSelected
+                    : undefined
+                }`}
+              >
+                {c.nombre}
+              </span>
+            </Tooltip>
+          ))
+        )}
       </div>
 
       <div className={styles.productsContainer}>
         <div className={styles.productsContainerScroller}>
-          {productos.map((p, i) => (
-            <Product key={i} {...p} onClick={() => showProduct(p.id)} />
-          ))}
+          {dataProducts === undefined ? (
+            <div className={styles.spinnerContainer}>
+              <CircularProgress />
+            </div>
+          ) : (
+            dataProducts.map((p) => (
+              <Product
+                key={p.id}
+                product={p}
+                onClick={() => showProduct(p.id)}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>

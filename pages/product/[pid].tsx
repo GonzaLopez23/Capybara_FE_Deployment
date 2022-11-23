@@ -1,40 +1,50 @@
 import { Add, PlusOne, Remove } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { CircularProgress, IconButton } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import useSWR from "swr";
 import Button from "../../components/Button";
 import { updateCart, useCart } from "../../services/cart";
+import fetcher from "../../services/fetcher";
 import styles from "../../styles/ProductDetail.module.css";
-
-const producto = {
-  nombre: "Mate",
-  precio: 100,
-  descripcion:
-    "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. ",
-};
+import { IProductResponse } from "../catalog";
 
 const ProductDetail = () => {
   const { cart } = useCart();
 
   const router = useRouter();
-  const { pid } = router.query;
+  const { query, isReady } = useRouter();
+
+  const { pid } = query;
+
+  const { data: dataProduct } = useSWR<IProductResponse>(
+    isReady ? `/api/v1/productos/${pid}` : null,
+    fetcher
+  );
+
+  const productId = Number(pid);
 
   const navigateToCatalog = () => router.push("/catalog");
 
   const [quantity, setQuantity] = useState(1);
 
-  if (pid === undefined || Array.isArray(pid)) {
-    navigateToCatalog();
-    return <></>;
-  }
+  useEffect(() => {
+    if (
+      (pid === undefined || Array.isArray(pid) || isNaN(productId)) &&
+      isReady
+    ) {
+      navigateToCatalog();
+    }
+  }, []);
 
-  const productId = Number(pid);
-
-  if (isNaN(productId)) {
-    navigateToCatalog();
-    return <></>;
+  if (dataProduct === undefined) {
+    return (
+      <div className={styles.spinnerContainer}>
+        <CircularProgress />
+      </div>
+    );
   }
 
   const handleChangeQuantity = (step: number) => () =>
@@ -60,8 +70,8 @@ const ProductDetail = () => {
           items: cart.items.concat([
             {
               id: productId,
-              price: producto.precio,
-              name: producto.nombre,
+              price: dataProduct.precio,
+              name: dataProduct.nombre,
               quantity,
             },
           ]),
@@ -78,13 +88,13 @@ const ProductDetail = () => {
 
   return (
     <div className={styles.container}>
-      <span className={styles.title}>{producto.nombre}</span>
+      <span className={styles.title}>{dataProduct.nombre}</span>
       <div className={styles.line}></div>
       <img className={styles.img} src="/mate.png" />
       <div className={styles.detailContainer}>
-        <span>{producto.descripcion}</span>
+        <span>{dataProduct.descripcion}</span>
         <div className={styles.pickerContainer}>
-          <span>{`$ ${producto.precio * quantity}`}</span>
+          <span>{`$ ${dataProduct.precio * quantity}`}</span>
           <div className={styles.counterPicker}>
             <IconButton onClick={handleChangeQuantity(1)}>
               <Add />
